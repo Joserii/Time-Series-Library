@@ -92,6 +92,7 @@ class Exp_Anomaly_Detection(Exp_Basic):
                 outputs = self.model(batch_x, None, None, None)
 
                 f_dim = -1 if self.args.features == 'MS' else 0
+                # import ipdb; ipdb.set_trace()
                 outputs = outputs[:, :, f_dim:]
                 loss = criterion(outputs, batch_x)
                 train_loss.append(loss.item())
