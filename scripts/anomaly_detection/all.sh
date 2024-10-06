@@ -1,0 +1,10 @@
+bash scripts/anomaly_detection/MSL/TimesNet.sh
+bash scripts/anomaly_detection/MSL/Autoformer.sh
+bash scripts/anomaly_detection/MSL/Crossformer.sh
+bash scripts/anomaly_detection/MSL/DLinear.sh
+bash scripts/anomaly_detection/MSL/ETSformer.sh
+bash scripts/anomaly_detection/MSL/Transformer.sh
+bash scripts/anomaly_detection/MSL/Informer.sh
+bash scripts/anomaly_detection/MSL/MICN.sh
+bash scripts/anomaly_detection/MSL/Reformer.sh
+bash scripts/anomaly_detection/MSL/DCdetector.sh

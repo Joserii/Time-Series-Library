@@ -10,7 +10,7 @@ from layers.StandardNorm import Normalize
 from tkinter import _flatten
 import numpy as np
 import time, os
-from utils.tools import EarlyStopping, adjust_learning_rate, adjustment
+from utils.tools import EarlyStopping, EarlyStopping_DCdetector, adjust_learning_rate, adjustment
 
 def my_kl_loss(p, q):
     res = p * (torch.log(p + 0.0001) - torch.log(q + 0.0001))
@@ -273,7 +273,7 @@ class Exp_DCdetector(object):
         path = os.path.join(self.args.checkpoints, setting)
         if not os.path.exists(path):
             os.makedirs(path)
-        early_stopping = EarlyStopping(patience=5, verbose=True)
+        early_stopping = EarlyStopping_DCdetector(patience=5, verbose=True)
         train_steps = len(train_loader)
         model_optim = self._select_optimizer()
 
