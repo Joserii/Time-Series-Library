@@ -1,18 +1,18 @@
 python -u run.py \
   --task_name anomaly_detection \
   --is_training 1 \
-  --root_path ./dataset/MSL \
-  --model_id MSL \
+  --root_path ./dataset/PSM \
+  --model_id PSM \
   --model DCdetector \
-  --data MSL \
+  --data PSM \
   --features M \
-  --seq_len 90 \
+  --seq_len 60 \
   --pred_len 0 \
   --d_model 128 \
-  --d_ff 512 \
+  --d_ff 128 \
   --e_layers 3 \
-  --enc_in 55 \
-  --c_out 55 \
+  --enc_in 25 \
+  --c_out 25 \
   --anomaly_ratio 1 \
   --batch_size 256 \
   --train_epochs 3 \

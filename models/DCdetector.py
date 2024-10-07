@@ -124,13 +124,13 @@ class Model(nn.Module):
         self.enc_in = configs.enc_in
         self.c_out = configs.c_out
         self.task_name = configs.task_name
+        self.d_model = configs.d_model
+        self.channel = configs.enc_in
+        self.d_ff = configs.d_ff
         self.n_heads = 1
-        self.d_model = 256
         self.e_layers = 3
         self.output_attention = True
         self.patch_size = [3,5,7]
-        self.channel = 55
-        self.d_ff = configs.d_ff
         self.dropout = 0.0
         self.activation = 'gelu'
         
@@ -138,6 +138,7 @@ class Model(nn.Module):
         self.embedding_patch_size = nn.ModuleList()
         self.embedding_patch_num = nn.ModuleList()
         for i, patchsize in enumerate(self.patch_size):
+            if self.win_size % patchsize != 0: continue
             self.embedding_patch_size.append(DataEmbedding(patchsize, self.d_model, self.dropout))
             self.embedding_patch_num.append(DataEmbedding(self.win_size//patchsize, self.d_model, self.dropout))
 
@@ -336,10 +337,11 @@ class Exp_DCdetector(object):
     def test(self, setting, test=0):
         test_data, test_loader = self._get_data(flag='test')
         train_data, train_loader = self._get_data(flag='train')
+        ckpt_path = os.path.join(str(self.args.checkpoints), setting)
 
         self.model.load_state_dict(
             torch.load(
-                os.path.join(str(self.model_save_path), str(self.data_path) + '_checkpoint.pth')))
+                os.path.join(ckpt_path , 'checkpoint.pth')))
         self.model.eval()
         temperature = 50
 
@@ -407,7 +409,7 @@ class Exp_DCdetector(object):
         attens_energy = np.concatenate(attens_energy, axis=0).reshape(-1)
         test_energy = np.array(attens_energy)
         combined_energy = np.concatenate([train_energy, test_energy], axis=0)
-        thresh = np.percentile(combined_energy, 100 - self.anormly_ratio)
+        thresh = np.percentile(combined_energy, 100 - self.args.anomaly_ratio)
         print("Threshold :", thresh)
 
         # (3) evaluation on the test set
